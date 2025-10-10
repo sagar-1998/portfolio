@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sagar Paraswal — Web Developer</title>
+    <link
+      rel="icon"
+      type="image/png"
+      href="https://cdn-icons-png.flaticon.com/512/3097/3097000.png"
+    />
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      :root {
+        --bg: #0a0a0a;
+        --surface: #111;
+        --text: #fff;
+        --text-dim: #888;
+        --accent: #fff;
+        --border: #222;
+        --highlight: #60a5fa;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.6;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      .container {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+
+      /* Navbar */
+      nav {
+        position: fixed;
+        top: 0;
+        width: 100%;
+        background: rgba(10, 10, 10, 0.8);
+        backdrop-filter: blur(20px);
+        z-index: 1000;
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--border);
+        transition: background 0.3s ease;
+      }
+
+      nav .container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .logo {
+        font-weight: 600;
+        font-size: 1.1rem;
+        letter-spacing: 0.1em;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 2rem;
+        list-style: none;
+      }
+
+      .nav-links a {
+        text-decoration: none;
+        color: var(--text-dim);
+        font-size: 0.9rem;
+        transition: color 0.3s;
+        position: relative;
+      }
+
+      .nav-links a:hover,
+      .nav-links a.active {
+        color: var(--highlight);
+      }
+
+      .nav-links a.active::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: var(--highlight);
+        border-radius: 2px;
+      }
+
+      /* Hamburger */
+      .hamburger {
+        display: none;
+        flex-direction: column;
+        gap: 5px;
+        cursor: pointer;
+      }
+
+      .hamburger span {
+        width: 24px;
+        height: 2px;
+        background: var(--text);
+        transition: all 0.3s ease;
+      }
+
+      .hamburger.active span:nth-child(1) {
+        transform: rotate(45deg) translateY(8px);
+      }
+
+      .hamburger.active span:nth-child(2) {
+        opacity: 0;
+      }
+
+      .hamburger.active span:nth-child(3) {
+        transform: rotate(-45deg) translateY(-8px);
+      }
+
+      .mobile-menu {
+        display: none;
+        flex-direction: column;
+        background: rgba(10, 10, 10, 0.95);
+        position: fixed;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        border-top: 1px solid var(--border);
+        z-index: 999;
+        padding: 1.5rem 0;
+        text-align: center;
+        backdrop-filter: blur(20px);
+      }
+
+      .mobile-menu a {
+        padding: 1rem;
+        color: var(--text);
+        text-decoration: none;
+        font-size: 1rem;
+        transition: color 0.3s;
+      }
+
+      .mobile-menu a:hover {
+        color: var(--highlight);
+      }
+
+      /* Hero */
+      .hero {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding-top: 100px;
+      }
+
+      .hero-content {
+        max-width: 700px;
+      }
+
+      .hero-label {
+        color: var(--text-dim);
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        margin-bottom: 1.5rem;
+      }
+
+      .hero h1 {
+        font-size: 4rem;
+        font-weight: 300;
+        line-height: 1.1;
+        margin-bottom: 1rem;
+      }
+
+      .hero h2 {
+        color: var(--text-dim);
+        font-weight: 300;
+        margin-bottom: 2rem;
+      }
+
+      .hero p {
+        color: var(--text-dim);
+        font-size: 1rem;
+        margin-bottom: 2.5rem;
+      }
+
+      .btn {
+        border: 1px solid var(--border);
+        background: transparent;
+        color: var(--text);
+        padding: 0.8rem 1.8rem;
+        cursor: pointer;
+        text-decoration: none;
+        transition: all 0.3s;
+      }
+
+      .btn:hover {
+        background: var(--highlight);
+        color: var(--bg);
+        border-color: var(--highlight);
+      }
+
+      section {
+        padding: 7rem 0;
+        opacity: 0;
+        transform: translateY(40px);
+        transition: all 0.8s ease-out;
+      }
+
+      section.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .section-header {
+        margin-bottom: 3rem;
+      }
+
+      .section-label {
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+        font-size: 0.85rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .section-title {
+        font-size: 2.2rem;
+        font-weight: 300;
+      }
+
+      /* Experience */
+      .experience-grid {
+        display: grid;
+        gap: 2rem;
+      }
+
+      .experience-card {
+        border-left: 2px solid var(--highlight);
+        padding-left: 1.5rem;
+      }
+
+      .experience-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        margin-bottom: 1rem;
+        flex-wrap: wrap;
+      }
+
+      .experience-title {
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .experience-company {
+        color: var(--text-dim);
+        font-size: 0.9rem;
+      }
+
+      .experience-date {
+        font-size: 0.85rem;
+        color: var(--text-dim);
+      }
+
+      .experience-card ul {
+        list-style: none;
+        margin-top: 1rem;
+      }
+
+      .experience-card li {
+        margin-bottom: 0.7rem;
+        color: var(--text-dim);
+      }
+
+      /* Projects */
+      .projects-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      .project-card {
+        background: var(--bg);
+        padding: 2rem 1.5rem;
+        transition: all 0.3s;
+      }
+
+      .project-card:hover {
+        background: var(--surface);
+      }
+
+      .project-title {
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+      }
+
+      .project-description {
+        font-size: 0.9rem;
+        color: var(--text-dim);
+        margin-bottom: 1.2rem;
+      }
+
+      .project-link {
+        color: var(--highlight);
+        text-decoration: none;
+        font-size: 0.85rem;
+      }
+
+      /* Skills */
+      .skills-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border: 1px solid var(--border);
+      }
+
+      .skill-card {
+        background: var(--bg);
+        text-align: center;
+        padding: 2rem 1rem;
+        transition: all 0.3s;
+      }
+
+      .skill-card:hover {
+        background: var(--surface);
+      }
+
+      .skill-name {
+        font-size: 0.95rem;
+        font-weight: 500;
+      }
+
+      /* Contact */
+      .contact-content {
+        text-align: center;
+        max-width: 700px;
+        margin: auto;
+      }
+
+      .contact-content h2 {
+        font-weight: 300;
+        font-size: 2.2rem;
+        margin-bottom: 1rem;
+      }
+
+      .contact-content p {
+        color: var(--text-dim);
+        margin-bottom: 2rem;
+      }
+
+      .contact-info {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
+        margin-top: 2rem;
+        border-top: 1px solid var(--border);
+        padding-top: 2rem;
+      }
+
+      .contact-item {
+        color: var(--text-dim);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .contact-item:hover {
+        color: var(--highlight);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem 0;
+        color: var(--text-dim);
+        border-top: 1px solid var(--border);
+        font-size: 0.85rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .projects-grid {
+          grid-template-columns: repeat(2, 1fr);
+        }
+      }
+
+      @media (max-width: 768px) {
+        .nav-links {
+          display: none;
+        }
+        .hamburger {
+          display: flex;
+        }
+        .projects-grid {
+          grid-template-columns: 1fr;
+        }
+        section {
+          padding: 5rem 0;
+        }
+        .hero h1 {
+          font-size: 2.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="container">
+        <div class="logo">SAGAR PARASWAL</div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#experience">Experience</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger" id="hamburger">
+          <span></span><span></span><span></span>
+        </div>
+      </div>
+      <div class="mobile-menu" id="mobileMenu">
+        <a href="#about">About</a>
+        <a href="#experience">Experience</a>
+        <a href="#projects">Projects</a>
+        <a href="#skills">Skills</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+
+    <section class="hero" id="home">
+      <div class="container">
+        <div class="hero-content">
+          <div class="hero-label">Web Developer</div>
+          <h1>Crafting Elegant Web Experiences</h1>
+          <h2>Turning Ideas into Interactive Realities</h2>
+          <p>
+            I’m a passionate front-end developer with 5+ years of experience
+            building responsive, high-performance web applications. I love
+            blending creativity and logic to craft digital products that engage
+            users and deliver impact.
+          </p>
+          <div>
+            <a href="#projects" class="btn">View Projects</a>
+            <a href="#contact" class="btn">Contact Me</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="experience">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Career</div>
+          <h2 class="section-title">Experience</h2>
+        </div>
+        <div class="experience-grid">
+          <div class="experience-card">
+            <div class="experience-header">
+              <div>
+                <div class="experience-title">Web Developer</div>
+                <div class="experience-company">AwareX, Inc. — Boston</div>
+              </div>
+              <div class="experience-date">2022 – 2025</div>
+            </div>
+            <ul>
+              <li>
+                Led front-end development of telecom and KYC platforms with
+                React + Redux.
+              </li>
+              <li>
+                Optimized performance by 50% through code splitting and lazy
+                loading.
+              </li>
+              <li>
+                Implemented Lighthouse-based audits for continuous UX
+                improvements.
+              </li>
+            </ul>
+          </div>
+
+          <div class="experience-card">
+            <div class="experience-header">
+              <div>
+                <div class="experience-title">Software Developer</div>
+                <div class="experience-company">Onports Pvt. Ltd. — Indore</div>
+              </div>
+              <div class="experience-date">2021 – 2022</div>
+            </div>
+            <ul>
+              <li>
+                Built scalable dashboards with React, TypeScript, and Ant
+                Design.
+              </li>
+              <li>
+                Enhanced client retention by delivering interactive, data-rich
+                UIs.
+              </li>
+            </ul>
+          </div>
+
+          <div class="experience-card">
+            <div class="experience-header">
+              <div>
+                <div class="experience-title">Front-end Developer</div>
+                <div class="experience-company">
+                  Creators Desire Solutions — Indore
+                </div>
+              </div>
+              <div class="experience-date">2020 – 2021</div>
+            </div>
+            <ul>
+              <li>
+                Developed educational interfaces integrating real-time
+                whiteboard tools.
+              </li>
+              <li>
+                Improved engagement by modernizing UI/UX and adding interactive
+                features.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Work</div>
+          <h2 class="section-title">Featured Projects</h2>
+        </div>
+
+        <div class="projects-grid">
+          <div class="project-card">
+            <h3 class="project-title">Anytime Mentorr</h3>
+            <p class="project-description">
+              A learning platform connecting students with mentors for tailored
+              growth journeys.
+            </p>
+            <a
+              href="https://www.anytimementorr.com/"
+              class="project-link"
+              target="_blank"
+              >View Project →</a
+            >
+          </div>
+
+          <div class="project-card">
+            <h3 class="project-title">Rho</h3>
+            <p class="project-description">
+              Finance management app offering powerful tools for modern
+              businesses.
+            </p>
+            <a href="https://rho.com/" class="project-link" target="_blank"
+              >View Project →</a
+            >
+          </div>
+
+          <div class="project-card">
+            <h3 class="project-title">Globe One e-KYC</h3>
+            <p class="project-description">
+              Seamless identity verification for Globe Telecom using a
+              digital-first approach.
+            </p>
+            <a
+              href="https://simreg.globe.com.ph/"
+              class="project-link"
+              target="_blank"
+              >View Project →</a
+            >
+          </div>
+
+          <div class="project-card">
+            <h3 class="project-title">WREF AwareX</h3>
+            <p class="project-description">
+              An integrated telecom solution providing streamlined workflows and
+              analytics.
+            </p>
+            <a
+              href="https://wref.awarex.com/#/"
+              class="project-link"
+              target="_blank"
+              >View Project →</a
+            >
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="container">
+        <div class="section-header">
+          <div class="section-label">Expertise</div>
+          <h2 class="section-title">Skills & Technologies</h2>
+        </div>
+        <div class="skills-grid">
+          <div class="skill-card"><div class="skill-name">ReactJS</div></div>
+          <div class="skill-card"><div class="skill-name">Redux</div></div>
+          <div class="skill-card"><div class="skill-name">JavaScript</div></div>
+          <div class="skill-card"><div class="skill-name">TypeScript</div></div>
+          <div class="skill-card">
+            <div class="skill-name">Tailwind CSS</div>
+          </div>
+          <div class="skill-card"><div class="skill-name">Bootstrap</div></div>
+          <div class="skill-card">
+            <div class="skill-name">Material UI</div>
+          </div>
+          <div class="skill-card"><div class="skill-name">Ant Design</div></div>
+          <div class="skill-card">
+            <div class="skill-name">Responsive Design</div>
+          </div>
+          <div class="skill-card"><div class="skill-name">CSS3</div></div>
+          <div class="skill-card"><div class="skill-name">HTML5</div></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="contact-content">
+          <div class="section-label">Contact</div>
+          <h2>Let’s Build Something Great</h2>
+          <p>
+            Open to freelance, full-time, or collaborative projects. Let’s
+            connect and make ideas happen.
+          </p>
+          <a href="mailto:sagarparaswal5@gmail.com" class="btn">Email Me</a>
+          <div class="contact-info">
+            <a href="mailto:sagarparaswal5@gmail.com" class="contact-item"
+              >sagarparaswal5@gmail.com</a
+            >
+            <a href="tel:+918319025363" class="contact-item">+91 83190 25363</a>
+            <span class="contact-item">Gurgaon, Haryana</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <div class="container">
+        <p>© 2025 Sagar Paraswal — Designed & Built with passion.</p>
+      </div>
+    </footer>
+
+    <script>
+      // Navbar active highlight
+      const sections = document.querySelectorAll("section");
+      const navLinks = document.querySelectorAll(
+        ".nav-links a, .mobile-menu a"
+      );
+
+      window.addEventListener("scroll", () => {
+        let current = "";
+        sections.forEach((section) => {
+          const sectionTop = section.offsetTop - 120;
+          if (pageYOffset >= sectionTop) current = section.getAttribute("id");
+        });
+
+        navLinks.forEach((link) => {
+          link.classList.remove("active");
+          if (link.getAttribute("href") === "#" + current)
+            link.classList.add("active");
+        });
+      });
+
+      // Mobile menu
+      const hamburger = document.getElementById("hamburger");
+      const mobileMenu = document.getElementById("mobileMenu");
+      hamburger.addEventListener("click", () => {
+        hamburger.classList.toggle("active");
+        mobileMenu.style.display =
+          mobileMenu.style.display === "flex" ? "none" : "flex";
+      });
+      mobileMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+          hamburger.classList.remove("active");
+          mobileMenu.style.display = "none";
+        });
+      });
+
+      // Scroll reveal
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) entry.target.classList.add("visible");
+          });
+        },
+        { threshold: 0.15 }
+      );
+
+      document
+        .querySelectorAll("section")
+        .forEach((el) => observer.observe(el));
+    </script>
+  </body>
+</html>
