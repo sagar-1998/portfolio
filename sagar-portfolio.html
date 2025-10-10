@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sagar Paraswal - Web Developer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg: #0a0a0a;
+            --surface: #111111;
+            --text: #ffffff;
+            --text-dim: #888888;
+            --accent: #ffffff;
+            --border: #222222;
+        }
+
+        [data-theme="light"] {
+            --bg: #ffffff;
+            --surface: #f5f5f5;
+            --text: #0a0a0a;
+            --text-dim: #666666;
+            --accent: #0a0a0a;
+            --border: #e0e0e0;
+        }
+
+        [data-theme="blue"] {
+            --bg: #0a1628;
+            --surface: #152235;
+            --text: #e0e7ff;
+            --text-dim: #8b9dc3;
+            --accent: #60a5fa;
+            --border: #1e3a5f;
+        }
+
+        [data-theme="green"] {
+            --bg: #0a1612;
+            --surface: #152521;
+            --text: #e0ffe7;
+            --text-dim: #8bc39d;
+            --accent: #4ade80;
+            --border: #1e3f2f;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* Abstract Background */
+        .abstract-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .abstract-shape {
+            position: absolute;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+            border-radius: 50%;
+        }
+
+        .shape1 {
+            width: 600px;
+            height: 600px;
+            top: -200px;
+            right: -200px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        .shape2 {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            left: -100px;
+            animation: float 15s ease-in-out infinite reverse;
+        }
+
+        .shape3 {
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            left: 10%;
+            animation: float 25s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.8);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        nav .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.2rem;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--text);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 3rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-dim);
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 0.9rem;
+            letter-spacing: 0.05em;
+        }
+
+        .nav-links a:hover {
+            color: var(--text);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero-label {
+            color: var(--text-dim);
+            font-size: 0.9rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+            line-height: 1.1;
+        }
+
+        .hero h2 {
+            font-size: 1.5rem;
+            color: var(--text-dim);
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+            margin-bottom: 3rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text);
+            font-size: 0.9rem;
+            font-weight: 400;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-decoration: none;
+            display: inline-block;
+            letter-spacing: 0.05em;
+        }
+
+        .btn:hover {
+            background: var(--text);
+            color: var(--bg);
+            border-color: var(--text);
+        }
+
+        /* Section Styles */
+        section {
+            padding: 8rem 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            margin-bottom: 4rem;
+        }
+
+        .section-label {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            letter-spacing: -0.02em;
+        }
+
+        /* About Section */
+        #about .container > div {
+            max-width: 700px;
+            border-left: 1px solid var(--border);
+            padding-left: 2rem;
+        }
+
+        #about p {
+            font-size: 1.1rem;
+            color: var(--text-dim);
+            line-height: 1.8;
+        }
+
+        /* Experience Section */
+        .experience-grid {
+            display: grid;
+            gap: 3rem;
+        }
+
+        .experience-card {
+            border-top: 1px solid var(--border);
+            padding-top: 2rem;
+            transition: all 0.3s;
+        }
+
+        .experience-card:hover {
+            border-color: var(--text);
+        }
+
+        .experience-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: start;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .experience-title {
+            font-size: 1.3rem;
+            font-weight: 400;
+            margin-bottom: 0.3rem;
+        }
+
+        .experience-company {
+            font-size: 1rem;
+            color: var(--text-dim);
+            font-weight: 300;
+        }
+
+        .experience-date {
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        .experience-card ul {
+            list-style: none;
+            padding-left: 0;
+            display: grid;
+            gap: 0.8rem;
+        }
+
+        .experience-card li {
+            padding-left: 1.5rem;
+            position: relative;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        .experience-card li:before {
+            content: "—";
+            position: absolute;
+            left: 0;
+            color: var(--text);
+        }
+
+        /* Projects Section */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .project-card {
+            background: var(--bg);
+            padding: 2.5rem 2rem;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .project-card:hover {
+            background: var(--surface);
+        }
+
+        .project-number {
+            font-size: 0.75rem;
+            color: var(--text-dim);
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .project-title {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .project-description {
+            color: var(--text-dim);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .project-link {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+            transition: opacity 0.3s;
+        }
+
+        .project-link:hover {
+            opacity: 0.6;
+        }
+
+        /* Skills Section */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .skill-card {
+            background: var(--bg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .skill-card:hover {
+            background: var(--surface);
+        }
+
+        .skill-name {
+            font-weight: 400;
+            font-size: 0.95rem;
+            letter-spacing: 0.02em;
+        }
+
+        /* Contact Section */
+        .contact-content {
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .contact-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            font-weight: 300;
+        }
+
+        .contact-content p {
+            color: var(--text-dim);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            gap: 3rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            padding-top: 3rem;
+            border-top: 1px solid var(--border);
+        }
+
+        .contact-item {
+            color: var(--text-dim);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            letter-spacing: 0.02em;
+        }
+
+        .contact-item:hover {
+            color: var(--text);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            color: var(--text-dim);
+            border-top: 1px solid var(--border);
+            font-size: 0.85rem;
+            letter-spacing: 0.05em;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+
+            .nav-links {
+                gap: 1.5rem;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .projects-grid,
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            #about .container > div {
+                border-left: none;
+                border-top: 1px solid var(--border);
+                padding-left: 0;
+                padding-top: 2rem;
+            }
+        }
+
+        /* Scroll animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="abstract-bg">
+        <div class="abstract-shape shape1"></div>
+        <div class="abstract-shape shape2"></div>
+        <div class="abstract-shape shape3"></div>
+    </div>
+
+    <nav>
+        <div class="container">
+            <div class="logo">SAGAR PARASWAL</div>
+            <ul class="nav-links">
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <div class="hero-label">Web Developer</div>
+                <h1>Sagar<br>Paraswal</h1>
+                <h2>Crafting Digital Experiences</h2>
+                <p>5+ years of experience building responsive, user-centric web applications with ReactJS and modern web technologies. Specialized in creating seamless digital experiences that drive engagement and performance.</p>
+                <div class="cta-buttons">
+                    <a href="#projects" class="btn">View Work</a>
+                    <a href="#contact" class="btn">Get In Touch</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">About</div>
+                <h2 class="section-title">Background</h2>
+            </div>
+            <div>
+                <p>
+                    Web Developer with over 5 years of experience working with both product-based and service-based initiatives. 
+                    I specialize in creating responsive and user-centric web applications using ReactJS and JavaScript. 
+                    My expertise lies in enhancing functionality and user engagement through innovative solutions, while excelling 
+                    in both service-driven and product-based initiatives. I'm committed to continuous learning and adapting to 
+                    evolving technologies, ensuring impactful contributions to web and mobile development initiatives.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="experience">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Career</div>
+                <h2 class="section-title">Experience</h2>
+            </div>
+            <div class="experience-grid">
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <div>
+                            <div class="experience-title">Web Developer</div>
+                            <div class="experience-company">AwareX, Inc. — Boston</div>
+                        </div>
+                        <div class="experience-date">2022 – 2025</div>
+                    </div>
+                    <ul>
+                        <li>Developed comprehensive telecom solutions for major vendors</li>
+                        <li>Led front-end development of e-KYC system for Globe One using React and Redux</li>
+                        <li>Enhanced performance by reducing payload size by 50% through asset compression</li>
+                        <li>Implemented responsive design practices to optimize web applications across devices</li>
+                        <li>Utilized Lighthouse and WebPageTest for performance optimization</li>
+                        <li>Improved web performance through lazy loading and code minimization</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <div>
+                            <div class="experience-title">Software Developer</div>
+                            <div class="experience-company">Onports Pvt. Ltd. — Indore</div>
+                        </div>
+                        <div class="experience-date">2021 – 2022</div>
+                    </div>
+                    <ul>
+                        <li>Developed dynamic front-end for investment firm using ReactJS and Material UI</li>
+                        <li>Achieved 30% increase in user engagement through enhanced UI/UX</li>
+                        <li>Built admin dashboard using TypeScript and Ant Design</li>
+                        <li>Improved data analysis efficiency through enhanced graphical representations</li>
+                    </ul>
+                </div>
+
+                <div class="experience-card fade-in">
+                    <div class="experience-header">
+                        <div>
+                            <div class="experience-title">Front-end Developer</div>
+                            <div class="experience-company">Creators Desire Solutions — Indore</div>
+                        </div>
+                        <div class="experience-date">2020 – 2021</div>
+                    </div>
+                    <ul>
+                        <li>Enhanced front-end of educational website</li>
+                        <li>Integrated whiteboard.chat library for live lectures</li>
+                        <li>Boosted student engagement and interaction through innovative features</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Work</div>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+            <div class="projects-grid">
+                <div class="project-card fade-in">
+                    <div class="project-number">01</div>
+                    <h3 class="project-title">Anytime Mentorr</h3>
+                    <p class="project-description">Educational platform connecting students with mentors for personalized learning experiences.</p>
+                    <a href="https://www.anytimementorr.com/" target="_blank" class="project-link">VIEW PROJECT →</a>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-number">02</div>
+                    <h3 class="project-title">Rho</h3>
+                    <p class="project-description">Business finance management platform with comprehensive financial tools and analytics.</p>
+                    <a href="http://rho.com/" target="_blank" class="project-link">VIEW PROJECT →</a>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-number">03</div>
+                    <h3 class="project-title">Globe One e-KYC</h3>
+                    <p class="project-description">Digital KYC verification system for Globe Telecom with seamless user experience.</p>
+                    <a href="https://simreg.globe.com.ph/" target="_blank" class="project-link">VIEW PROJECT →</a>
+                </div>
+
+                <div class="project-card fade-in">
+                    <div class="project-number">04</div>
+                    <h3 class="project-title">WREF AwareX</h3>
+                    <p class="project-description">Comprehensive telecom solution platform with advanced management features.</p>
+                    <a href="https://wref.awarex.com/#/" target="_blank" class="project-link">VIEW PROJECT →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div class="container">
+            <div class="section-header">
+                <div class="section-label">Expertise</div>
+                <h2 class="section-title">Skills & Technologies</h2>
+            </div>
+            <div class="skills-grid">
+                <div class="skill-card fade-in"><div class="skill-name">ReactJS</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Redux</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">JavaScript</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">TypeScript</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Tailwind CSS</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Bootstrap</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Material UI</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Ant Design</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">Responsive Design</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">CSS3</div></div>
+                <div class="skill-card fade-in"><div class="skill-name">HTML5</div></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <div class="container">
+            <div class="contact-content">
+                <div class="section-label">Contact</div>
+                <h2>Let's Work Together</h2>
+                <p>I'm always interested in hearing about new projects and opportunities.</p>
+                <div class="cta-buttons" style="justify-content: center;">
+                    <a href="mailto:sagarparaswal5@gmail.com" class="btn">Email Me</a>
+                </div>
+                <div class="contact-info">
+                    <a href="mailto:sagarparaswal5@gmail.com" class="contact-item">sagarparaswal5@gmail.com</a>
+                    <a href="tel:+918319025363" class="contact-item">+91 83190 25363</a>
+                    <span class="contact-item">Gurgaon, Haryana</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>© 2025 Sagar Paraswal</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scrolling
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Fade in on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.fade-in').forEach(el => {
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
